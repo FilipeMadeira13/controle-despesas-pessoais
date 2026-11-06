@@ -15,7 +15,7 @@ Decisões já tomadas:
 - Exportação e restauração de uma cópia de segurança em JSON, um formato de dados em texto.
 - Formulários e navegação com páginas geradas pelo Django; uma API separada não é necessária para este MVP.
 
-Estado verificado em **06/11/2026**: o diretório contém o backlog e o registro das tecnologias, sem implementação da aplicação. O Git reconhece o repositório, há um remoto `origin` configurado e a branch atual é `main`. A B01 já está marcada como concluída; a criação de uma branch de trabalho permanece pendente em B02. Os comandos e testes descritos a seguir são previstos, ainda não executados nesta revisão.
+Estado verificado em **06/11/2026**: o Git reconhece o repositório e a branch atual é `iniciar-projeto`. B01, B02 e B03 já estão marcadas como concluídas. Há uma estrutura inicial Django com o app `expenses`, SQLite configurado e uma página inicial que responde com uma saudação. Na revisão anterior, `manage.py check` não apontou problemas, a consulta à rota `/` pelo cliente de testes retornou HTTP 200 e `manage.py test` encontrou **0 testes**. A página não foi aberta no navegador nessa revisão. A configuração de um teste inicial permanece pendente em B04; cadastro e persistência de despesas ainda não foram implementados.
 
 ## Como trabalhar com este backlog
 
@@ -24,7 +24,7 @@ Estado verificado em **06/11/2026**: o diretório contém o backlog e o registro
 - Nas funcionalidades com regras testáveis, use TDD: **RED**, escrever um teste e observar a falha esperada; **GREEN**, implementar o mínimo para passar; **REFACTOR**, melhorar o código preservando o comportamento e os testes.
 - Para ajustes visuais e acessibilidade, combine verificações manuais com os testes que fizerem sentido.
 - Antes de instalações, alterações de arquivos, mudanças no Git ou operações externas, explique o impacto e obtenha autorização para a etapa correspondente. A autorização para criar este backlog não autoriza implementar a aplicação.
-- Marque uma tarefa somente após demonstrar seu critério de aceitação e registrar o resultado da verificação. Os testes descritos abaixo são previstos, ainda não executados.
+- Marque uma tarefa somente após demonstrar seu critério de aceitação e registrar o resultado da verificação. Os testes descritos abaixo são previstos; execuções já verificadas devem ter seus resultados registrados explicitamente.
 - Se uma tarefa ficar grande para uma sessão, divida-a em subtarefas como `B10.1` e `B10.2`, preservando o ID original.
 
 ### Critério de conclusão de cada tarefa
@@ -49,7 +49,7 @@ O resultado esperado está demonstrável; as verificações pertinentes foram ex
 - **Precisão:** definir limites explícitos para valores e totais, compatíveis com o campo inteiro escolhido no Django e com o SQLite. Aplicar os mesmos limites no formulário e na restauração; cálculos e conversões não devem introduzir arredondamentos silenciosos nem usar `float`, tipo numérico de ponto flutuante que pode perder precisão.
 - **Data:** data civil válida, sem horário, representada por `date` em Python e `DateField` no Django, exportada como `AAAA-MM-DD` e apresentada como `DD/MM/AAAA`. O dia informado deve permanecer o mesmo independentemente do fuso horário.
 - **Categorias fixas:** Alimentação, Moradia, Transporte, Saúde, Educação, Lazer e Outros. Gerenciar categorias personalizadas não faz parte do MVP.
-- **Consulta:** começar no mês atual de uso da aplicação, incluindo o ano. Como a página será gerada no servidor, usar a data local no fuso configurado no Django, inicialmente `America/Fortaleza`, em vez de depender do fuso do navegador. A lista combina mês e categoria e apresenta as datas mais recentes primeiro.
+- **Consulta:** começar no mês atual de uso da aplicação, incluindo o ano. Como a página será gerada no servidor, usar a data local no fuso configurado no Django, inicialmente `America/Fortaleza`. A lista combina mês e categoria e apresenta as datas mais recentes primeiro.
 - **Totais:** o total dos registros exibidos respeita os dois filtros. O resumo por categoria considera o mês inteiro, com esse alcance indicado na interface.
 - **Persistência:** dados pertencem à instalação local da aplicação e ficam no SQLite; trocar de navegador não cria outra coleção de despesas. Acesso ao mesmo servidor utiliza o mesmo banco, sem cópias independentes por dispositivo. Só confirmar o sucesso de uma alteração depois de concluir a gravação.
 - **Requisições:** consultas não alteram dados. Cadastro, edição, exclusão e confirmação de restauração usam `POST`, método de envio de formulários, com a proteção CSRF do Django contra submissões forjadas por outros sites. Após uma alteração bem-sucedida, redirecionar para uma consulta para evitar repetir o envio ao atualizar a página.
@@ -63,34 +63,34 @@ O resultado esperado está demonstrável; as verificações pertinentes foram ex
   - **Dependências:** nenhuma.
   - **Aceitação:** registrar a alternativa escolhida, uma justificativa curta, os comandos previstos e a forma de iniciar e testar o projeto. Não instalar ferramentas nesta tarefa.
   - **Verificação:** explicar com suas palavras como a escolha atende aos requisitos do MVP e quais conhecimentos precisará praticar.
-  - **Decisão registrada:** escolha confirmada pelo usuário em [TECNOLOGIAS.md](TECNOLOGIAS.md): Python + Django, SQLite, HTML e CSS e testes do Django, aproveitando sua base maior em Python. Comandos previstos após a preparação: `python manage.py runserver` para iniciar localmente, `python manage.py check` para verificar a configuração e `python manage.py test` para executar os testes. Esses comandos ainda não foram executados; versões e preparação do ambiente serão verificadas em B03.
+  - **Decisão registrada:** Python + Django, SQLite, HTML e CSS e testes do Django, conforme [TECNOLOGIAS.md](TECNOLOGIAS.md). Com o ambiente virtual ativado, os comandos são `python manage.py runserver` para iniciar localmente, `python manage.py check` para verificar a configuração e `python manage.py test` para executar os testes. As evidências já obtidas estão no estado verificado acima.
   - **Risco:** adicionar ferramentas sem necessidade e aumentar a dificuldade inicial.
 
-- [ ] **B02 — Preparar repositório Git e branch de trabalho**
+- [x] **B02 — Preparar repositório Git e branch de trabalho**
   - **Objetivo:** estabelecer o controle de versão e uma branch para o desenvolvimento.
   - **Dependências:** B01.
-  - **Aceitação:** conferir o repositório e o remoto já existentes e, após autorização dos comandos, trabalhar em uma branch diferente de `main` e `master`. Preservar o `BACKLOG.md`, o `TECNOLOGIAS.md` e qualquer trabalho existente; não fazer commit, push ou configurar serviços externos nesta tarefa.
+  - **Aceitação:** após autorização dos comandos, o Git reconhece o repositório e a branch atual é diferente de `main` e `master`. Preservar o `BACKLOG.md`, o `TECNOLOGIAS.md` e qualquer trabalho existente; não fazer commit, push ou configurar serviços externos nesta tarefa.
   - **Verificação:** conferir o estado do repositório, a branch atual e os arquivos existentes antes e depois da preparação.
   - **Risco:** sobrescrever arquivos ou executar operações sobre uma branch incorreta.
 
-- [ ] **B03 — Criar a estrutura mínima da aplicação**
+- [x] **B03 — Criar a estrutura mínima da aplicação**
   - **Objetivo:** preparar um projeto Django com um app de despesas, unidade que reúne os arquivos dessa funcionalidade.
   - **Dependências:** B01, B02.
-  - **Aceitação:** depois das autorizações necessárias, preparar um ambiente virtual Python, registrar versões compatíveis de Python e Django e as dependências, configurar SQLite e o fuso `America/Fortaleza`, e criar uma rota e um template, modelo HTML preenchido pelo Django, para a página inicial. Ignorar no Git o ambiente virtual, o banco local e outros arquivos gerados ou sensíveis. A página identificada como controle de despesas abre pelo endereço local documentado.
-  - **Verificação:** executar `python manage.py check` e `python manage.py runserver`, abrir a página no navegador e registrar os resultados. A estrutura das tabelas de despesas será criada em B10.
+  - **Aceitação:** depois das autorizações necessárias, preparar um ambiente virtual Python, registrar as dependências, configurar SQLite e o fuso `America/Fortaleza`, e criar uma rota para uma página inicial identificada como controle de despesas. O endereço local padrão é `http://127.0.0.1:8000/`, após iniciar com `python manage.py runserver`. A resposta inicial pode usar `HttpResponse`; os templates, modelos HTML preenchidos pelo Django, serão introduzidos em B09. Ignorar no Git o ambiente virtual, o banco local e outros arquivos gerados ou sensíveis.
+  - **Verificação:** executar `python manage.py check` e o comando de inicialização, abrir a página no navegador e registrar os resultados. Distinguir a verificação pelo cliente de testes da verificação no navegador. A estrutura das tabelas de despesas será criada em B10.
   - **Risco:** introduzir dependências ou configurações além do necessário para começar.
 
 - [ ] **B04 — Configurar a execução dos testes**
   - **Objetivo:** disponibilizar testes reproduzíveis usando as ferramentas integradas do Django.
   - **Dependências:** B03.
-  - **Aceitação:** `python manage.py test` descobre e executa um teste inicial da página; uma falha intencional temporária produz uma falha reconhecível. Definir o uso de `SimpleTestCase` para testes sem banco e `TestCase` para testes com banco, sem direcioná-los ao arquivo SQLite de uso pessoal.
+  - **Aceitação:** `python manage.py test` descobre e executa um teste inicial da página; uma falha intencional temporária produz uma falha reconhecível. Usar `SimpleTestCase` para testes sem banco e `TestCase` para testes com banco, sem direcioná-los ao arquivo SQLite de uso pessoal.
   - **Verificação:** conferir a quantidade de testes executados, observar a falha controlada, restaurar o teste correto e registrar a execução passando. Confirmar o isolamento do banco quando os primeiros testes de persistência forem adicionados em B10.
   - **Risco:** ter um comando que termina com sucesso sem realmente descobrir ou executar testes.
 
 - [ ] **B05 — Registrar instruções para iniciar e verificar o projeto**
   - **Objetivo:** documentar pré-requisitos e comandos efetivamente utilizados.
   - **Dependências:** B04.
-  - **Aceitação:** documentação apresenta versões utilizadas, preparação e ativação do ambiente virtual, instalação das dependências registradas, `python manage.py check`, inicialização com `python manage.py runserver`, testes com `python manage.py test` e encerramento do processo local. Distinguir o servidor Django do navegador e explicar onde fica o SQLite; documentar migrações quando introduzidas em B10 e a condição de acesso pelo celular.
+  - **Aceitação:** documentação apresenta versões utilizadas, preparação e ativação do ambiente virtual, instalação das dependências registradas, configuração de `SECRET_KEY` a partir de `.env.example`, `python manage.py check`, inicialização com `python manage.py runserver`, testes com `python manage.py test` e encerramento do processo local. Distinguir o servidor Django do navegador e explicar onde fica o SQLite; documentar migrações quando introduzidas em B10 e a condição de acesso pelo celular.
   - **Verificação:** seguir as instruções na ordem escrita e registrar qualquer ajuste necessário.
 
 ## Marco 2 — Cadastrar e guardar despesas
@@ -295,12 +295,4 @@ Adicionar qualquer um desses itens exige revisar o escopo e planejar suas própr
 
 ## Próxima microtarefa
 
-**B02 — Preparar repositório Git e branch de trabalho.** A tecnologia já foi escolhida e registrada. Conferir novamente a branch e as alterações locais e propor uma branch de trabalho antes de iniciar a implementação. A revisão deste backlog não executa B02 nem autoriza automaticamente as próximas etapas.
-
-## Referências técnicas
-
-- [Tecnologias escolhidas e justificativa](TECNOLOGIAS.md).
-- [Testes integrados do Django](https://docs.djangoproject.com/en/stable/topics/testing/overview/).
-- [Transações e `transaction.atomic()`](https://docs.djangoproject.com/en/stable/topics/db/transactions/).
-- [Proteção CSRF em formulários Django](https://docs.djangoproject.com/en/stable/howto/csrf/).
-- [Fusos horários no Django](https://docs.djangoproject.com/en/stable/topics/i18n/timezones/).
+**B04 — Configurar a execução dos testes.** Escrever um teste inicial da página usando `SimpleTestCase` e o cliente de testes do Django, conferir que ele é descoberto e demonstrar a falha controlada antes de restaurar a expectativa correta. B01, B02 e B03 mantêm as marcações existentes; esta correção documental não executa B04 nem conclui outras tarefas.
