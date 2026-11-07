@@ -88,7 +88,7 @@ O resultado esperado está demonstrável; as verificações pertinentes foram ex
   - **Evidências:** o desenvolvedor confirmou a falha intencional ao trocar a expectativa de HTTP 200 por HTTP 404. Na revisão, com a expectativa correta de HTTP 200, o comando `.venv/bin/python -B manage.py test --noinput --verbosity 2` descobriu e executou 1 teste com resultado `OK`; o Django dispensou a criação do banco de testes por não haver acesso ao banco.
   - **Risco:** ter um comando que termina com sucesso sem realmente descobrir ou executar testes.
 
-- [ ] **B05 — Registrar instruções para iniciar e verificar o projeto**
+- [x] **B05 — Registrar instruções para iniciar e verificar o projeto**
   - **Objetivo:** documentar pré-requisitos e comandos efetivamente utilizados.
   - **Dependências:** B04.
   - **Aceitação:** documentação apresenta versões utilizadas, preparação e ativação do ambiente virtual, instalação das dependências registradas, configuração de `SECRET_KEY` a partir de `.env.example`, `python manage.py check`, inicialização com `python manage.py runserver`, testes com `python manage.py test` e encerramento do processo local. Distinguir o servidor Django do navegador e explicar onde fica o SQLite; documentar migrações quando introduzidas em B10 e a condição de acesso pelo celular.
