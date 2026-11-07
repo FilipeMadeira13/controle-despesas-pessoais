@@ -80,11 +80,12 @@ O resultado esperado está demonstrável; as verificações pertinentes foram ex
   - **Verificação:** executar `python manage.py check` e o comando de inicialização, abrir a página no navegador e registrar os resultados. Distinguir a verificação pelo cliente de testes da verificação no navegador. A estrutura das tabelas de despesas será criada em B10.
   - **Risco:** introduzir dependências ou configurações além do necessário para começar.
 
-- [ ] **B04 — Configurar a execução dos testes**
+- [x] **B04 — Configurar a execução dos testes**
   - **Objetivo:** disponibilizar testes reproduzíveis usando as ferramentas integradas do Django.
   - **Dependências:** B03.
   - **Aceitação:** `python manage.py test` descobre e executa um teste inicial da página; uma falha intencional temporária produz uma falha reconhecível. Usar `SimpleTestCase` para testes sem banco e `TestCase` para testes com banco, sem direcioná-los ao arquivo SQLite de uso pessoal.
   - **Verificação:** conferir a quantidade de testes executados, observar a falha controlada, restaurar o teste correto e registrar a execução passando. Confirmar o isolamento do banco quando os primeiros testes de persistência forem adicionados em B10.
+  - **Evidências:** o desenvolvedor confirmou a falha intencional ao trocar a expectativa de HTTP 200 por HTTP 404. Na revisão, com a expectativa correta de HTTP 200, o comando `.venv/bin/python -B manage.py test --noinput --verbosity 2` descobriu e executou 1 teste com resultado `OK`; o Django dispensou a criação do banco de testes por não haver acesso ao banco.
   - **Risco:** ter um comando que termina com sucesso sem realmente descobrir ou executar testes.
 
 - [ ] **B05 — Registrar instruções para iniciar e verificar o projeto**
